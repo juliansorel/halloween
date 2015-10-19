@@ -29,10 +29,20 @@ namespace Match3
         private int boardRows = 10;
         private int tileSide = 100; // This should probably be taken from assets.
 
+        public ScoreboardPanel scoreboardPanel;
 
         protected override void CreateScene()
         {
             this.Load(WaveContent.Scenes.MyScene);
+
+            scoreboardPanel = new ScoreboardPanel()
+            {
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(0, WaveServices.ViewportManager.TopEdge, 0,0),
+            };
+            EntityManager.Add(scoreboardPanel);
+
             Board board = new Board(boardX, boardY, boardWidth, boardHeight, boardColumns, boardRows, tileSide);
             string[] tileSprites = {WaveContent.Tiles_spritesheet_TextureName.black,
                 WaveContent.Tiles_spritesheet_TextureName.blue,

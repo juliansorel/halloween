@@ -106,6 +106,21 @@ namespace Match3
                         {
                             foreach (Match match in matchesAfterSwapping)
                             {
+                                switch (match.Tiles.Count)
+                                {
+                                    case 3:
+                                        ((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 1;
+                                        break;
+                                    case 4:
+                                        ((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 5;
+                                        break;
+                                    case 5:
+                                        ((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 20;
+                                        break;
+                                    default:
+                                        ((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 1;
+                                        break;
+                                }
                                 foreach (Tile tile in match.Tiles)
                                 {
                                     if (Tiles[tile.BoardColumn, tile.BoardRow] != null)
