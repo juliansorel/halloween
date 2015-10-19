@@ -7,10 +7,12 @@ using WaveEngine.Common.Math;
 using WaveEngine.Components.Cameras;
 using WaveEngine.Components.Graphics2D;
 using WaveEngine.Components.Graphics3D;
+using WaveEngine.Components.UI;
 using WaveEngine.Framework;
 using WaveEngine.Framework.Graphics;
 using WaveEngine.Framework.Resources;
 using WaveEngine.Framework.Services;
+using WaveEngine.Framework.UI;
 #endregion
 
 namespace Match3
@@ -25,20 +27,30 @@ namespace Match3
 
         private int boardColumns = 10;
         private int boardRows = 10;
+        private int tileSide = 100; // This should probably be taken from assets.
 
 
         protected override void CreateScene()
         {
             this.Load(WaveContent.Scenes.MyScene);
-            Board board = new Board(boardX, boardY, boardWidth, boardHeight, boardColumns, boardRows);
+            Board board = new Board(boardX, boardY, boardWidth, boardHeight, boardColumns, boardRows, tileSide);
             string[] tileSprites = {WaveContent.Tiles_spritesheet_TextureName.black,
                 WaveContent.Tiles_spritesheet_TextureName.blue,
                 WaveContent.Tiles_spritesheet_TextureName.green,
                 WaveContent.Tiles_spritesheet_TextureName.red,
                 WaveContent.Tiles_spritesheet_TextureName.yellow};
             List<Entity> tiles = board.GenerateRandomBoard(WaveContent.Tiles_spritesheet, tileSprites);
-            
+
+            EntityManager.Add(board);
             EntityManager.Add(tiles);
+
+            this.AddSceneBehavior(new MySceneBehavior(), SceneBehavior.Order.PostUpdate);
+        }
+
+        protected override void Start()
+        {
+            EntityManager.Remove("particle2D");
+            base.Start();
         }
     }
 }

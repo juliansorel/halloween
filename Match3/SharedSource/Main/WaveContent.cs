@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// File generated on 10-10-2015 12:33:18
+// File generated on 19-10-2015 06:32:29
 namespace Match3
 {
     using System;
@@ -19,6 +19,9 @@ namespace Match3
         
         /// <summary> Path to Content/Tiles.spritesheet </summary>
         public const string Tiles_spritesheet = "Content/Tiles.spritesheet";
+        
+        /// <summary> Path to Content/MyMaterial.wmat </summary>
+        public const string MyMaterial = "Content/MyMaterial.wmat";
         
         /// <summary> Texture names from spritesheet Content/Tiles.spritesheet </summary>
         public struct Tiles_spritesheet_TextureName
@@ -46,6 +49,9 @@ namespace Match3
             
             /// <summary> Path to Content/Assets/green.png </summary>
             public const string green_png = "Content/Assets/green.png";
+            
+            /// <summary> Path to Content/Assets/kite_ball.png </summary>
+            public const string kite_ball_png = "Content/Assets/kite_ball.png";
             
             /// <summary> Path to Content/Assets/red.png </summary>
             public const string red_png = "Content/Assets/red.png";

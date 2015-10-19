@@ -167,6 +167,116 @@
       </d2p1:SerializeComponents>
       <d2p1:Tag i:nil="true" />
     </d2p1:Entity>
+    <d2p1:Entity>
+      <d2p1:IsStatic>false</d2p1:IsStatic>
+      <d2p1:IsVisible>true</d2p1:IsVisible>
+      <d2p1:Name>particle2D</d2p1:Name>
+      <d2p1:SerializeChildrens />
+      <d2p1:SerializeComponents>
+        <d2p1:Component xmlns:d5p1="WaveEngine.Framework.Graphics" i:type="d5p1:Transform2D">
+          <d5p1:LocalOrientation xmlns:d6p1="WaveEngine.Common.Math">
+            <d6p1:W>1</d6p1:W>
+            <d6p1:X>0</d6p1:X>
+            <d6p1:Y>0</d6p1:Y>
+            <d6p1:Z>0</d6p1:Z>
+          </d5p1:LocalOrientation>
+          <d5p1:LocalPosition xmlns:d6p1="WaveEngine.Common.Math">
+            <d6p1:X>135.999969</d6p1:X>
+            <d6p1:Y>252.6</d6p1:Y>
+            <d6p1:Z>0</d6p1:Z>
+          </d5p1:LocalPosition>
+          <d5p1:LocalScale xmlns:d6p1="WaveEngine.Common.Math">
+            <d6p1:X>1</d6p1:X>
+            <d6p1:Y>1</d6p1:Y>
+            <d6p1:Z>1</d6p1:Z>
+          </d5p1:LocalScale>
+          <d5p1:Effect>None</d5p1:Effect>
+          <d5p1:Opacity>1</d5p1:Opacity>
+          <d5p1:Rectangle xmlns:d6p1="http://schemas.datacontract.org/2004/07/WaveEngine.Common.Math">
+            <d6p1:Height>0</d6p1:Height>
+            <d6p1:Width>0</d6p1:Width>
+            <d6p1:X>0</d6p1:X>
+            <d6p1:Y>0</d6p1:Y>
+          </d5p1:Rectangle>
+          <d5p1:origin xmlns:d6p1="http://schemas.datacontract.org/2004/07/WaveEngine.Common.Math">
+            <d6p1:X>0.5</d6p1:X>
+            <d6p1:Y>0.5</d6p1:Y>
+          </d5p1:origin>
+        </d2p1:Component>
+        <d2p1:Component xmlns:d5p1="WaveEngine.Components.Graphics3D" i:type="d5p1:MaterialsMap">
+          <d5p1:DefaultMaterialPath>Content/MyMaterial.wmat</d5p1:DefaultMaterialPath>
+          <d5p1:MaterialsPath xmlns:d6p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+          <d5p1:UseMaterialCopy>false</d5p1:UseMaterialCopy>
+          <d5p1:useDefaultMaterial>false</d5p1:useDefaultMaterial>
+          <d5p1:useDummyMaterial>true</d5p1:useDummyMaterial>
+        </d2p1:Component>
+        <d2p1:Component xmlns:d5p1="WaveEngine.Components.Particles" i:type="d5p1:ParticleSystem2D">
+          <d5p1:AlphaEnabled>false</d5p1:AlphaEnabled>
+          <d5p1:Bounciness>0.4</d5p1:Bounciness>
+          <d5p1:CollisionBehavior>Bounce</d5p1:CollisionBehavior>
+          <d5p1:CollisionBottom>0</d5p1:CollisionBottom>
+          <d5p1:CollisionLeft>0</d5p1:CollisionLeft>
+          <d5p1:CollisionRight>0</d5p1:CollisionRight>
+          <d5p1:CollisionSpread xmlns:d6p1="http://schemas.datacontract.org/2004/07/WaveEngine.Common.Math">
+            <d6p1:X>10</d6p1:X>
+            <d6p1:Y>8.5</d6p1:Y>
+          </d5p1:CollisionSpread>
+          <d5p1:CollisionTop>0</d5p1:CollisionTop>
+          <d5p1:CollisionType>None</d5p1:CollisionType>
+          <d5p1:Emit>true</d5p1:Emit>
+          <d5p1:EmitRate>0</d5p1:EmitRate>
+          <d5p1:EmitterShape>Rectangle</d5p1:EmitterShape>
+          <d5p1:EmitterSize xmlns:d6p1="WaveEngine.Common.Math">
+            <d6p1:X>0</d6p1:X>
+            <d6p1:Y>0</d6p1:Y>
+            <d6p1:Z>0</d6p1:Z>
+          </d5p1:EmitterSize>
+          <d5p1:Gravity xmlns:d6p1="http://schemas.datacontract.org/2004/07/WaveEngine.Common.Math">
+            <d6p1:X>0</d6p1:X>
+            <d6p1:Y>0.01</d6p1:Y>
+          </d5p1:Gravity>
+          <d5p1:InitialAngle>0</d5p1:InitialAngle>
+          <d5p1:InitialAngleVariation>0</d5p1:InitialAngleVariation>
+          <d5p1:InterpolationColors xmlns:d6p1="WaveEngine.Common.Graphics" i:nil="true" />
+          <d5p1:LinearColorEnabled>false</d5p1:LinearColorEnabled>
+          <d5p1:LocalVelocity xmlns:d6p1="http://schemas.datacontract.org/2004/07/WaveEngine.Common.Math">
+            <d6p1:X>0</d6p1:X>
+            <d6p1:Y>0.3</d6p1:Y>
+          </d5p1:LocalVelocity>
+          <d5p1:MaxColor xmlns:d6p1="WaveEngine.Common.Graphics">
+            <d6p1:A>255</d6p1:A>
+            <d6p1:B>0</d6p1:B>
+            <d6p1:G>0</d6p1:G>
+            <d6p1:R>116</d6p1:R>
+          </d5p1:MaxColor>
+          <d5p1:MaxLife>2</d5p1:MaxLife>
+          <d5p1:MaxRotateSpeed>0</d5p1:MaxRotateSpeed>
+          <d5p1:MaxSize>10</d5p1:MaxSize>
+          <d5p1:MinColor xmlns:d6p1="WaveEngine.Common.Graphics">
+            <d6p1:A>255</d6p1:A>
+            <d6p1:B>204</d6p1:B>
+            <d6p1:G>67</d6p1:G>
+            <d6p1:R>34</d6p1:R>
+          </d5p1:MinColor>
+          <d5p1:MinLife>1</d5p1:MinLife>
+          <d5p1:MinRotateSpeed>0</d5p1:MinRotateSpeed>
+          <d5p1:MinSize>5</d5p1:MinSize>
+          <d5p1:NumParticles>10</d5p1:NumParticles>
+          <d5p1:RandomVelocity xmlns:d6p1="http://schemas.datacontract.org/2004/07/WaveEngine.Common.Math">
+            <d6p1:X>0.5</d6p1:X>
+            <d6p1:Y>0.7</d6p1:Y>
+          </d5p1:RandomVelocity>
+          <d5p1:SortEnabled>false</d5p1:SortEnabled>
+        </d2p1:Component>
+        <d2p1:Component xmlns:d5p1="WaveEngine.Components.Graphics2D" i:type="d5p1:ParticleSystemRenderer2D">
+          <d2p1:IsVisible>true</d2p1:IsVisible>
+          <CullingEnabled xmlns="WaveEngine.Framework.Graphics">true</CullingEnabled>
+          <LayerTypeName i:nil="true" xmlns="WaveEngine.Framework.Graphics" />
+          <collider2D xmlns:d6p1="WaveEngine.Framework.Physics2D" i:nil="true" xmlns="WaveEngine.Framework.Graphics" />
+        </d2p1:Component>
+      </d2p1:SerializeComponents>
+      <d2p1:Tag i:nil="true" />
+    </d2p1:Entity>
   </Entities>
   <Settings xmlns:d2p1="WaveEngine.Framework.Models.Settings">
     <d2p1:Categories xmlns:d3p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
