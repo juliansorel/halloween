@@ -13,8 +13,9 @@ namespace Match3
         public override void Initialize(IApplication application)
         {
             base.Initialize(application);
-
-			ScreenContext screenContext = new ScreenContext(new MyScene());	
+            ViewportManager vm = WaveServices.ViewportManager;
+            vm.Activate(1280, 720, ViewportManager.StretchMode.Uniform);
+            ScreenContext screenContext = new ScreenContext(new MainMenuScene());	
 			WaveServices.ScreenContextManager.To(screenContext);
         }
 

@@ -9,8 +9,10 @@
     <Import_RootNamespace>Match3</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ScaleCycleBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Board.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BoardBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MainMenuScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Match.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MySceneBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game.cs" />
