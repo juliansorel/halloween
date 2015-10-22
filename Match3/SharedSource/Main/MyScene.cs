@@ -28,12 +28,21 @@ namespace Match3
         private int boardColumns = 10;
         private int boardRows = 10;
         private int tileSide = 100; // This should probably be taken from assets.
+        private string[] tileSprites = {WaveContent.Tiles_spritesheet_TextureName.black,
+                WaveContent.Tiles_spritesheet_TextureName.blue,
+                WaveContent.Tiles_spritesheet_TextureName.green,
+                WaveContent.Tiles_spritesheet_TextureName.red,
+                WaveContent.Tiles_spritesheet_TextureName.yellow};
+
 
         public ScoreboardPanel scoreboardPanel;
 
         protected override void CreateScene()
         {
             this.Load(WaveContent.Scenes.MyScene);
+
+            Configuration config = new Configuration();
+            config.ReadConfiguration();
 
             scoreboardPanel = new ScoreboardPanel()
             {
@@ -43,13 +52,14 @@ namespace Match3
             };
             EntityManager.Add(scoreboardPanel);
 
-            Board board = new Board(boardX, boardY, boardWidth, boardHeight, boardColumns, boardRows, tileSide);
-            string[] tileSprites = {WaveContent.Tiles_spritesheet_TextureName.black,
-                WaveContent.Tiles_spritesheet_TextureName.blue,
-                WaveContent.Tiles_spritesheet_TextureName.green,
-                WaveContent.Tiles_spritesheet_TextureName.red,
-                WaveContent.Tiles_spritesheet_TextureName.yellow};
-            List<Entity> tiles = board.GenerateRandomBoard(WaveContent.Tiles_spritesheet, tileSprites);
+            Board board = new Board(boardX, boardY, boardWidth, boardHeight, config.Columns, config.Rows, tileSide);
+
+            string[] selectedSprites = new string[config.Tiles];
+            for (int i = 0; i< config.Tiles; i++)
+            {
+                selectedSprites[i] = tileSprites[i];
+            }
+            List<Entity> tiles = board.GenerateRandomBoard(WaveContent.Tiles_spritesheet, selectedSprites);
 
             EntityManager.Add(board);
             EntityManager.Add(tiles);

@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Behaviors\ScaleCycleBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Board.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BoardBehavior.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainMenuScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Match.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MySceneBehavior.cs" />
@@ -21,5 +22,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Tile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TileBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WaveContent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Config.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

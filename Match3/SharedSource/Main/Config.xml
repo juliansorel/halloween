@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<board>
+  <columns>5</columns>
+  <rows>5</rows>
+  <tiles>3</tiles> <!--Number of different kinds of tiles: 2-5-->
+</board>
