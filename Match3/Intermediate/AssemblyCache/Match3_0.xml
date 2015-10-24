@@ -17,9 +17,6 @@
         <member name="F:Match3.WaveContent.Tiles_spritesheet">
             <summary> Path to Content/Tiles.spritesheet </summary>
         </member>
-        <member name="F:Match3.WaveContent.MyMaterial">
-            <summary> Path to Content/MyMaterial.wmat </summary>
-        </member>
         <member name="T:Match3.WaveContent.Tiles_spritesheet_TextureName">
             <summary> Texture names from spritesheet Content/Tiles.spritesheet </summary>
         </member>
@@ -32,14 +29,14 @@
         <member name="F:Match3.WaveContent.Assets.green_png">
             <summary> Path to Content/Assets/green.png </summary>
         </member>
-        <member name="F:Match3.WaveContent.Assets.kite_ball_png">
-            <summary> Path to Content/Assets/kite_ball.png </summary>
-        </member>
         <member name="F:Match3.WaveContent.Assets.red_png">
             <summary> Path to Content/Assets/red.png </summary>
         </member>
         <member name="F:Match3.WaveContent.Assets.yellow_png">
             <summary> Path to Content/Assets/yellow.png </summary>
+        </member>
+        <member name="F:Match3.WaveContent.Scenes.MainMenuScene">
+            <summary> Path to Content/Scenes/MainMenuScene.wscene </summary>
         </member>
         <member name="F:Match3.WaveContent.Scenes.MyScene">
             <summary> Path to Content/Scenes/MyScene.wscene </summary>

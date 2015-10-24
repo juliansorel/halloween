@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// File generated on 22-10-2015 20:07:20
+// File generated on 24-10-2015 07:08:32
 namespace Match3
 {
     using System;
@@ -33,6 +33,8 @@ namespace Match3
             public const string red = "red";
             
             public const string yellow = "yellow";
+            
+            public const string special_1 = "special_1";
         }
         
         public sealed class Assets
@@ -49,6 +51,9 @@ namespace Match3
             
             /// <summary> Path to Content/Assets/red.png </summary>
             public const string red_png = "Content/Assets/red.png";
+            
+            /// <summary> Path to Content/Assets/special_1.png </summary>
+            public const string special_1_png = "Content/Assets/special_1.png";
             
             /// <summary> Path to Content/Assets/yellow.png </summary>
             public const string yellow_png = "Content/Assets/yellow.png";

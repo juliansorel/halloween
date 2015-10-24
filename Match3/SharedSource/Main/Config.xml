@@ -2,5 +2,7 @@
 <board>
   <columns>5</columns>
   <rows>5</rows>
-  <tiles>3</tiles> <!--Number of different kinds of tiles: 2-5-->
+  <tiles>3</tiles>
+  <!--Number of different kinds of tiles: 2-5-->
+  <chanceSpecial1>0.05</chanceSpecial1> <!--Chance to spawn a special one tile. decimal number: 0.0 - 1.0-->
 </board>

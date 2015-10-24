@@ -23,6 +23,7 @@ namespace Match3
         private int _selectedTileRow = -1;
         private Random _random = new Random();
         private int _noTilesKinds;
+        private double chanceSpecial1 = 0.0;
 
 
 
@@ -37,6 +38,10 @@ namespace Match3
             TileSide = tileSide;
             ActualTileSide = (int)(GetTileScale(TileSide, TileSide).X * TileSide);
             this.entity = new Entity() { Name = "Board" }.AddComponent(new BoardBehavior(this));
+
+            Configuration config = new Configuration();
+            config.ReadConfiguration();
+            chanceSpecial1 = config.Special1Chance;
         }
 
         public Vector2 GetTileScale(int tileWidth = 100, int tileHeight= 100)
@@ -63,9 +68,13 @@ namespace Match3
             {
                 for(int j = 0; j < Rows; j++)
                 {
-                    int tileIndex = _random.Next(_noTilesKinds);
+                    Tile entity = GenerateRandomTile();
                     Point tilePosition = GetTilePosition(i, j);
-                    var entity = new Tile(tileIndex, tilePosition.X, tilePosition.Y, GetTileScale()) { BoardColumn = i, BoardRow = j };
+                    entity.X = tilePosition.X;
+                    entity.Y = tilePosition.Y;
+                    entity.BoardColumn = i;
+                    entity.BoardRow = j;
+
                     Tiles[i,j] = entity;
                     entities.Add(entity.Entity);
                 }
@@ -88,6 +97,21 @@ namespace Match3
 
         public void SelectTile(int column, int row)
         {
+			if (Tiles[column,row].Index == 5)
+			{
+				if (_selectedTileColumn != -1)
+				{
+					Tiles[_selectedTileColumn, _selectedTileRow].Selected = false;
+					_selectedTileColumn = -1;
+				}
+				this.entity.FindComponent<BoardBehavior>().RemoveEntity(Tiles[column, row].Entity);
+				Tiles[column, row] = null;
+				ShuffleTiles(column, row);
+				DropTiles();
+				FindMatchesScoreAndDropTiles();
+
+				return;
+			}
             if (_selectedTileColumn != -1)
             {
                 Tiles[_selectedTileColumn, _selectedTileRow].Selected = false;
@@ -102,39 +126,8 @@ namespace Match3
                         SwapTiles(column, row, _selectedTileColumn, _selectedTileRow);
                     } else
                     {
-                        while (matchesAfterSwapping.Count != 0)
-                        {
-                            foreach (Match match in matchesAfterSwapping)
-                            {
-                                switch (match.Tiles.Count)
-                                {
-                                    case 3:
-                                        ((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 1;
-                                        break;
-                                    case 4:
-                                        ((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 5;
-                                        break;
-                                    case 5:
-                                        ((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 20;
-                                        break;
-                                    default:
-                                        ((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 1;
-                                        break;
-                                }
-                                foreach (Tile tile in match.Tiles)
-                                {
-                                    if (Tiles[tile.BoardColumn, tile.BoardRow] != null)
-                                    {
-                                        // TODO: Fix this:
-                                        this.entity.FindComponent<BoardBehavior>().RemoveEntity(Tiles[tile.BoardColumn, tile.BoardRow].Entity);
-                                    }
-                                    Tiles[tile.BoardColumn, tile.BoardRow] = null;
-                                }
-                            }
-                            // TEMPORARY
-                            DropTiles();
-                            matchesAfterSwapping = FindMatches();
-                        }
+						FindMatchesScoreAndDropTiles(matchesAfterSwapping);
+                        
                     }
                     _selectedTileColumn = -1;
                 }
@@ -155,22 +148,10 @@ namespace Match3
 
         public void SwapTiles(int column1, int row1, int column2, int row2)
         {
-            Point newTile1Position = GetTilePosition(column2, row2);
-            Tiles[column1, row1].Entity.FindComponent<Transform2D>().X = newTile1Position.X;
-            Tiles[column1, row1].Entity.FindComponent<Transform2D>().Y = newTile1Position.Y;
-
-            Point newTile2Position = GetTilePosition(column1, row1);
-            Tiles[column2, row2].Entity.FindComponent<Transform2D>().X = newTile2Position.X;
-            Tiles[column2, row2].Entity.FindComponent<Transform2D>().Y = newTile2Position.Y;
-
-            Tile swapTile = Tiles[column1, row1];
-            Tiles[column1, row1] = Tiles[column2, row2];
-            Tiles[column2, row2] = swapTile;
-            // TODO: revisit this monstrocity
-            Tiles[column1, row1].BoardColumn = column1;
-            Tiles[column1, row1].BoardRow = row1;
-            Tiles[column2, row2].BoardColumn = column2;
-            Tiles[column2, row2].BoardRow = row2;
+			Tile firstTile = Tiles[column1, row1];
+			Tile secondTile = Tiles[column2, row2];
+			PutTileAtPosition(firstTile, column2, row2);
+			PutTileAtPosition(secondTile, column1, row1);
         }
 
         public List<Match> FindMatches()
@@ -182,6 +163,10 @@ namespace Match3
             {
                 for (int i = 0; i < Columns - 2; i++)
                 {
+					if (Tiles[i,j].Index == 5)
+					{
+						continue;
+					}
                     if ((Tiles[i,j].Index == Tiles[i+1,j].Index) && (Tiles[i, j].Index == Tiles[i+2,j].Index))
                     {
                         if (skipTiles != 0)
@@ -208,7 +193,11 @@ namespace Match3
             {
                 for (int j = 0; j < Rows-2; j++)
                 {
-                    if (skipTiles != 0)
+					if (Tiles[i, j].Index == 5)
+					{
+						continue;
+					}
+					if (skipTiles != 0)
                     {
                         skipTiles--;
                         continue;
@@ -254,15 +243,109 @@ namespace Match3
                                 Tiles[i, k + 1].BoardRow = k + 1;
                             }
                         }
-                        int tileIndex = _random.Next(_noTilesKinds);
-                        Point tilePosition = GetTilePosition(i, 0);
-                        var entity = new Tile(tileIndex, tilePosition.X, tilePosition.Y, GetTileScale()) { BoardColumn = i, BoardRow = 0 };
-                        Tiles[i, 0] = entity;
+                        var entity = GenerateRandomTile();
+						PutTileAtPosition(entity, i, 0);
                         //Fix this: 
                         this.entity.FindComponent<BoardBehavior>().AddEntity(Tiles[i, 0].Entity);
                     }
                 }
             }
         }
+
+        private Tile GenerateRandomTile()
+        {
+            Tile entity = null;
+            if (_random.NextDouble() < chanceSpecial1)
+            {
+                entity = new Special1Tile(GetTileScale());
+            }
+            else
+            {
+                int tileIndex = _random.Next(_noTilesKinds);
+                entity = new Tile(tileIndex, GetTileScale());
+            }
+            return entity;
+        }
+
+		private void FindMatchesScoreAndDropTiles(List<Match> initialMatches = null)
+		{
+
+			List<Match> matchesAfterSwapping = initialMatches??FindMatches();
+			while (matchesAfterSwapping.Count != 0)
+			{
+				foreach (Match match in matchesAfterSwapping)
+				{
+					switch (match.Tiles.Count)
+					{
+						case 3:
+							((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 1;
+							break;
+						case 4:
+							((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 5;
+							break;
+						case 5:
+							((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 20;
+							break;
+						default:
+							((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 1;
+							break;
+					}
+					foreach (Tile tile in match.Tiles)
+					{
+						if (Tiles[tile.BoardColumn, tile.BoardRow] != null)
+						{
+							// TODO: Fix this:
+							this.entity.FindComponent<BoardBehavior>().RemoveEntity(Tiles[tile.BoardColumn, tile.BoardRow].Entity);
+						}
+						Tiles[tile.BoardColumn, tile.BoardRow] = null;
+					}
+				}
+				// TEMPORARY
+				DropTiles();
+				matchesAfterSwapping = FindMatches();
+			}
+		}
+
+		private void PutTileAtPosition(Tile tile, int column, int row)
+		{
+			Point tilePosition = GetTilePosition(column, row);
+
+			tile.X = tilePosition.X;
+			tile.Y = tilePosition.Y;
+			tile.BoardColumn = column;
+			tile.BoardRow = row;
+			Tiles[column, row] = tile;
+		}
+
+		private void ShuffleTiles(int column, int row)
+		{
+			List<Tuple<int, int>> positionToShuffle = new List<Tuple<int, int>>()
+			{
+				new Tuple<int, int>( column -1, row-1 ), new Tuple<int, int>( column, row-1 ), new Tuple<int, int>( column +1, row-1 ),
+				new Tuple<int, int>( column -1, row ),                                         new Tuple<int, int>( column +1, row ),
+                new Tuple<int, int>( column -1, row+1 ), new Tuple<int, int>( column, row+1 ), new Tuple<int, int>( column +1, row+1 )
+			};
+			List<Tile> tilesToShuffle = new List<Tile>();
+
+			for (int i = positionToShuffle.Count -1; i >= 0; i--)
+			{
+				if (positionToShuffle[i].Item1 < 0 || positionToShuffle[i].Item1 > Columns-1 ||
+					positionToShuffle[i].Item2 < 0 || positionToShuffle[i].Item2 > Rows-1)
+				{
+					positionToShuffle.RemoveAt(i);
+				}
+				else
+				{
+					tilesToShuffle.Add(Tiles[positionToShuffle[i].Item1, positionToShuffle[i].Item2]);
+				}
+
+			}
+			foreach (var position in positionToShuffle)
+			{
+				int randomTileIndex = _random.Next(tilesToShuffle.Count);
+				PutTileAtPosition(tilesToShuffle[randomTileIndex], position.Item1, position.Item2);
+				tilesToShuffle.RemoveAt(randomTileIndex);
+			}
+		}
     }
 }
