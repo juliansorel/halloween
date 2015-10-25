@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WaveEngine.Common.Graphics;
 using WaveEngine.Components.UI;
 using WaveEngine.Framework;
 using WaveEngine.Framework.Graphics;
@@ -10,8 +11,9 @@ namespace Match3
 {
     public class ScoreboardPanel : BaseDecorator
     {
-        private TextBlock _scoreText;
+        private TextBlock _scoreText, timeText;
         private int _scores;
+		private TimeSpan time;
 
         public HorizontalAlignment HorizontalAlignment
         {
@@ -31,6 +33,19 @@ namespace Match3
             set { this.entity.FindComponent<PanelControl>().Margin = value; }
         }
 
+		public TimeSpan Time
+		{
+			get { return time; }
+			set
+			{
+				time = value;
+				this.timeText.Text = this.time.ToString(@"mm\:ss\:ff");
+
+				//this.timeIn.IsVisible = (time > TimeSpan.Zero) ? true : false;
+				//this.timeOut.IsVisible = (time > TimeSpan.Zero) ? false : true;
+			}
+		}
+
         public int Scores
         {
             get { return _scores; }
@@ -44,6 +59,19 @@ namespace Match3
             this.entity = new Entity("scoreboardPanel").AddComponent(new Transform2D())
                 .AddComponent(new PanelControl(300, 100))
                 .AddComponent(new PanelControlRenderer());
+			Configuration config = new Configuration();
+			config.ReadConfiguration();
+			this.time = TimeSpan.FromSeconds(config.TimeSec);
+
+			this.timeText = new TextBlock("timeText")
+			{
+				Width = 132,
+				Height = 42,
+				Text = this.time.ToString(@"mm\:ss\:ff"),
+				Margin = new Thickness(34, 19, 0, 0),
+				Foreground = Color.LightGreen,
+			};
+			this.entity.AddChild(this.timeText.Entity);
 
             _scoreText = new TextBlock("scoreText")
             {

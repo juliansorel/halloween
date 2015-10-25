@@ -19,6 +19,7 @@ namespace Match3
         public int TileSide { get; set; }
         public int ActualTileSide { get; private set; }
         public Tile[,] Tiles { get; set; }
+		
         private int _selectedTileColumn = -1;
         private int _selectedTileRow = -1;
         private Random _random = new Random();

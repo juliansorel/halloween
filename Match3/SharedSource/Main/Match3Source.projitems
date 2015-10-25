@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainMenuScene.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Match.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessagePanel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MySceneBehavior.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Game.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MyScene.cs" />

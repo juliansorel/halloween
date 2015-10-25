@@ -11,6 +11,7 @@ namespace Match3
         public int Rows { get; private set; }
         public int Tiles { get; private set; }
         public double Special1Chance { get; private set; }
+		public int TimeSec { get; private set; }
 
         public void ReadConfiguration()
         {
@@ -28,6 +29,9 @@ namespace Match3
 
             XmlNode special1Node = doc.DocumentElement.SelectSingleNode("/board/chanceSpecial1");
             Special1Chance = Convert.ToDouble(special1Node.InnerText);
-        }
+
+			XmlNode timeNode = doc.DocumentElement.SelectSingleNode("/board/timeSec");
+			TimeSec = Convert.ToInt32(timeNode.InnerText);
+		}
     }
 }

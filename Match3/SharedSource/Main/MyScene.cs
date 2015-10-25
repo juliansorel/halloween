@@ -7,6 +7,7 @@ using WaveEngine.Common.Math;
 using WaveEngine.Components.Cameras;
 using WaveEngine.Components.Graphics2D;
 using WaveEngine.Components.Graphics3D;
+using WaveEngine.Components.Transitions;
 using WaveEngine.Components.UI;
 using WaveEngine.Framework;
 using WaveEngine.Framework.Graphics;
@@ -19,6 +20,15 @@ namespace Match3
 {
     public class MyScene : Scene
     {
+		public enum States
+		{
+
+			GamePlay,
+			TimeOut,
+		}
+
+		private States _currentState;
+		private MessagePanel _messagePanel;
         private int boardX = 400;
         private int boardY = 100;
 
@@ -33,9 +43,19 @@ namespace Match3
                 WaveContent.Tiles_spritesheet_TextureName.green,
                 WaveContent.Tiles_spritesheet_TextureName.red,
                 WaveContent.Tiles_spritesheet_TextureName.yellow};
-
+		
 
         public ScoreboardPanel scoreboardPanel;
+
+		public States CurrentState
+		{
+			get { return _currentState; }
+			set
+			{
+				_currentState = value;
+				UpdateState(_currentState);
+			}
+		}
 
         protected override void CreateScene()
         {
@@ -52,6 +72,13 @@ namespace Match3
             };
             EntityManager.Add(scoreboardPanel);
 
+			_messagePanel = new MessagePanel(MessagePanel.MessageType.Hide)
+			{
+				HorizontalAlignment = HorizontalAlignment.Center,
+				VerticalAlignment = VerticalAlignment.Center
+			};
+			EntityManager.Add(_messagePanel);
+
             Board board = new Board(boardX, boardY, boardWidth, boardHeight, config.Columns, config.Rows, tileSide);
 
             string[] selectedSprites = new string[config.Tiles];
@@ -65,12 +92,33 @@ namespace Match3
             EntityManager.Add(tiles);
 
             this.AddSceneBehavior(new MySceneBehavior(), SceneBehavior.Order.PostUpdate);
-        }
+			CurrentState = States.GamePlay;
+		}
 
-        protected override void Start()
+		protected override void Start()
         {
             EntityManager.Remove("particle2D");
             base.Start();
         }
+
+		private void UpdateState(States state)
+		{
+			_messagePanel.IsVisible = false;
+			switch (state)
+			{
+				case States.GamePlay:
+
+					break;
+				case States.TimeOut:
+					_messagePanel.Type = MessagePanel.MessageType.Timeout;
+					EntityManager.Find<Board>("Board").Entity.IsActive = false;
+					WaveServices.TimerFactory.CreateTimer("timer", TimeSpan.FromSeconds(2.5f), () =>
+					{
+						WaveServices.ScreenContextManager.To(
+					new ScreenContext(new MainMenuScene()), new SpinningSquaresTransition(TimeSpan.FromSeconds(1.5f)));
+					}, false);
+					break;
+			}
+		}
     }
 }
