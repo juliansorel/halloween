@@ -4,7 +4,7 @@
   <level Id="0">
     <timeSec>60</timeSec>
     <boards>
-      <board>
+      <board Id="Left">
         <x_position>100</x_position>
         <y_position>100</y_position>
         <width>500</width>
@@ -14,6 +14,20 @@
         <tiles>3</tiles>
         <!--Number of different kinds of tiles: 2-5-->
         <chanceSpecial1>0.04</chanceSpecial1> <!--Chance to spawn a special one tile. decimal number: 0.0 - 1.0-->
+
+      </board>
+
+      <board Id="Right">
+        <x_position>700</x_position>
+        <y_position>100</y_position>
+        <width>500</width>
+        <height>500</height>
+        <columns>5</columns>
+        <rows>5</rows>
+        <tiles>3</tiles>
+        <!--Number of different kinds of tiles: 2-5-->
+        <chanceSpecial1>0.04</chanceSpecial1>
+        <!--Chance to spawn a special one tile. decimal number: 0.0 - 1.0-->
 
       </board>
     </boards>

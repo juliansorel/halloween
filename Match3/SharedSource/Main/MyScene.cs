@@ -77,18 +77,22 @@ namespace Match3
 			};
 			EntityManager.Add(_messagePanel);
 
-            Board board = new Board(config.Levels[0].Boards[0].X, config.Levels[0].Boards[0].Y, config.Levels[0].Boards[0].Width, config.Levels[0].Boards[0].Height, 
-                config.Levels[0].Boards[0].Columns, config.Levels[0].Boards[0].Rows, tileSide);
-
-            string[] selectedSprites = new string[config.Levels[0].Boards[0].Tiles];
-            for (int i = 0; i< config.Levels[0].Boards[0].Tiles; i++)
+            foreach (BoardConfiguration boardConfig in config.Levels[0].Boards)
             {
-                selectedSprites[i] = tileSprites[i];
-            }
-            List<Entity> tiles = board.GenerateRandomBoard(WaveContent.Tiles_spritesheet, selectedSprites);
+                Board board = new Board(boardConfig.X, boardConfig.Y, boardConfig.Width, boardConfig.Height,
+                    boardConfig.Columns, boardConfig.Rows, tileSide);
+                board.Entity.Name = boardConfig.Name;
+                string[] selectedSprites = new string[boardConfig.Tiles];
+                for (int i = 0; i < boardConfig.Tiles; i++)
+                {
+                    selectedSprites[i] = tileSprites[i];
+                }
+                List<Entity> tiles = board.GenerateRandomBoard(WaveContent.Tiles_spritesheet, selectedSprites);
 
-            EntityManager.Add(board);
-            EntityManager.Add(tiles);
+                EntityManager.Add(board);
+
+                EntityManager.Add(tiles);
+            }
 
             this.AddSceneBehavior(new MySceneBehavior(), SceneBehavior.Order.PostUpdate);
 			CurrentState = States.GamePlay;
@@ -110,7 +114,10 @@ namespace Match3
 					break;
 				case States.TimeOut:
 					_messagePanel.Type = MessagePanel.MessageType.Timeout;
-					EntityManager.Find<Board>("Board").Entity.IsActive = false;
+                    foreach(Board board in EntityManager.FindAllByTag("board"))
+                    {
+                        board.Entity.IsActive = false;
+                    }
 					WaveServices.TimerFactory.CreateTimer("timer", TimeSpan.FromSeconds(2.5f), () =>
 					{
 						WaveServices.ScreenContextManager.To(

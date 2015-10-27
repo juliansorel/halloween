@@ -30,6 +30,7 @@ namespace Match3
 
         public Board(int x, int y, int width, int height, int columns, int rows, int tileSide)
         {
+
             X = x;
             Y = y;
             Width = width;
@@ -39,7 +40,7 @@ namespace Match3
             TileSide = tileSide;
             ActualTileSide = (int)(GetTileScale(TileSide, TileSide).X * TileSide);
             this.entity = new Entity() { Name = "Board" }.AddComponent(new BoardBehavior(this));
-
+            this.Tag = "board";
             Configuration config = new Configuration();
             config.ReadConfiguration();
             chanceSpecial1 = config.Levels[0].Boards[0].Special1Chance;

@@ -15,6 +15,7 @@ namespace Match3
         public int Y { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
+        public string Name { get; set; }
     }
 
     class Configuration
@@ -60,6 +61,8 @@ namespace Match3
 
                     XmlNode heightNode = boardNode.SelectSingleNode("./height");
                     newBoard.Height = Convert.ToInt32(heightNode.InnerText);
+
+                    newBoard.Name = boardNode.Attributes["Id"].Value;
 
                     newLevel.Boards.Add(newBoard);
                 }
