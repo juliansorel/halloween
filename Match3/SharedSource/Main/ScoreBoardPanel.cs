@@ -61,7 +61,7 @@ namespace Match3
                 .AddComponent(new PanelControlRenderer());
 			Configuration config = new Configuration();
 			config.ReadConfiguration();
-			this.time = TimeSpan.FromSeconds(config.TimeSec);
+			this.time = TimeSpan.FromSeconds(config.Levels[0].TimeSec);
 
 			this.timeText = new TextBlock("timeText")
 			{

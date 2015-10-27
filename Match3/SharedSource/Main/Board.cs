@@ -42,7 +42,7 @@ namespace Match3
 
             Configuration config = new Configuration();
             config.ReadConfiguration();
-            chanceSpecial1 = config.Special1Chance;
+            chanceSpecial1 = config.Levels[0].Boards[0].Special1Chance;
         }
 
         public Vector2 GetTileScale(int tileWidth = 100, int tileHeight= 100)

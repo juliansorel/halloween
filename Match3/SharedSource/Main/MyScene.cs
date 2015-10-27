@@ -29,14 +29,12 @@ namespace Match3
 
 		private States _currentState;
 		private MessagePanel _messagePanel;
-        private int boardX = 400;
-        private int boardY = 100;
+        //private int boardX = 400;
+        //private int boardY = 100;
 
-        private int boardWidth = 500;
-        private int boardHeight = 500;
+        //private int boardWidth = 500;
+        //private int boardHeight = 500;
 
-        private int boardColumns = 10;
-        private int boardRows = 10;
         private int tileSide = 100; // This should probably be taken from assets.
         private string[] tileSprites = {WaveContent.Tiles_spritesheet_TextureName.black,
                 WaveContent.Tiles_spritesheet_TextureName.blue,
@@ -79,10 +77,11 @@ namespace Match3
 			};
 			EntityManager.Add(_messagePanel);
 
-            Board board = new Board(boardX, boardY, boardWidth, boardHeight, config.Columns, config.Rows, tileSide);
+            Board board = new Board(config.Levels[0].Boards[0].X, config.Levels[0].Boards[0].Y, config.Levels[0].Boards[0].Width, config.Levels[0].Boards[0].Height, 
+                config.Levels[0].Boards[0].Columns, config.Levels[0].Boards[0].Rows, tileSide);
 
-            string[] selectedSprites = new string[config.Tiles];
-            for (int i = 0; i< config.Tiles; i++)
+            string[] selectedSprites = new string[config.Levels[0].Boards[0].Tiles];
+            for (int i = 0; i< config.Levels[0].Boards[0].Tiles; i++)
             {
                 selectedSprites[i] = tileSprites[i];
             }
