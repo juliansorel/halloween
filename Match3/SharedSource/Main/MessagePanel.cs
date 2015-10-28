@@ -1,10 +1,4 @@
 ﻿#region Using Statements
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WaveEngine.Common.Graphics;
 using WaveEngine.Components.UI;
 using WaveEngine.Framework;
 using WaveEngine.Framework.Graphics;
@@ -13,12 +7,13 @@ using WaveEngine.Framework.UI;
 
 namespace Match3
 {
-	public class MessagePanel : BaseDecorator
+    public class MessagePanel : BaseDecorator
 	{
 		public enum MessageType
 		{
 			Hide,
 			Timeout,
+            Win,
 		};
 
 		private MessageType type;
@@ -54,6 +49,9 @@ namespace Match3
 					case MessageType.Timeout:
 						text.Text = "Game Over";
 						break;
+                    case MessageType.Win:
+                        text.Text = "YOU WIN";
+                        break;
 					default:
 						break;
 				}

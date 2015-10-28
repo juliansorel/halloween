@@ -12,7 +12,7 @@ namespace Match3
 
         protected override void Update(System.TimeSpan gameTime)
         {
-            //Trace.Write("a");
+            Trace.Write("a");
 			if (_gamePlayScene.CurrentState == MyScene.States.GamePlay)
 			{
 
@@ -22,6 +22,19 @@ namespace Match3
 					_scoreboardPanel.Time = TimeSpan.Zero;
 					_gamePlayScene.CurrentState = MyScene.States.TimeOut;
 				}
+                bool win = true;
+                foreach(Board board in _gamePlayScene.EntityManager.FindAllByTag("board"))
+                {
+                    if (!board.IsComplete())
+                    {
+                        win = false;
+                        break;
+                    }
+                }
+                if (win)
+                {
+                    _gamePlayScene.CurrentState = MyScene.States.Win;
+                }
 			}
         }
 

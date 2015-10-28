@@ -25,6 +25,7 @@ namespace Match3
 
 			GamePlay,
 			TimeOut,
+            Win,
 		}
 
 		private States _currentState;
@@ -79,9 +80,10 @@ namespace Match3
 
             foreach (BoardConfiguration boardConfig in config.Levels[0].Boards)
             {
-                Board board = new Board(boardConfig.X, boardConfig.Y, boardConfig.Width, boardConfig.Height,
-                    boardConfig.Columns, boardConfig.Rows, tileSide);
+                Board board = new Board(boardConfig, tileSide);
                 board.Entity.Name = boardConfig.Name;
+                board.ChanceSpecial1 = boardConfig.Special1Chance;
+
                 string[] selectedSprites = new string[boardConfig.Tiles];
                 for (int i = 0; i < boardConfig.Tiles; i++)
                 {
@@ -112,7 +114,19 @@ namespace Match3
 				case States.GamePlay:
 
 					break;
-				case States.TimeOut:
+                case States.Win:
+                    _messagePanel.Type = MessagePanel.MessageType.Win;
+                    foreach (Board board in EntityManager.FindAllByTag("board"))
+                    {
+                        board.Entity.IsActive = false;
+                    }
+                    WaveServices.TimerFactory.CreateTimer("timer", TimeSpan.FromSeconds(2.5f), () =>
+                    {
+                        WaveServices.ScreenContextManager.To(
+                    new ScreenContext(new MainMenuScene()), new SpinningSquaresTransition(TimeSpan.FromSeconds(2.5f)));
+                    }, false);
+                    break;
+                case States.TimeOut:
 					_messagePanel.Type = MessagePanel.MessageType.Timeout;
                     foreach(Board board in EntityManager.FindAllByTag("board"))
                     {

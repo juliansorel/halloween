@@ -42,7 +42,7 @@ namespace Match3
             startButton.Entity.FindChild("ImageEntity").FindComponent<Transform2D>().Origin = Vector2.Center;
             startButton.Click += (s, o) => {
                 WaveServices.ScreenContextManager.To(
-                    new ScreenContext(new MyScene()), new SpinningSquaresTransition(TimeSpan.FromSeconds(1.5f)));
+                    new ScreenContext(new MyScene()), new SpinningSquaresTransition(TimeSpan.FromSeconds(1f)));
             };
 
             EntityManager.Add(startButton);

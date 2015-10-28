@@ -19,31 +19,41 @@ namespace Match3
         public int TileSide { get; set; }
         public int ActualTileSide { get; private set; }
         public Tile[,] Tiles { get; set; }
-		
+        public double ChanceSpecial1
+        {
+            get; set;
+        }
+
         private int _selectedTileColumn = -1;
         private int _selectedTileRow = -1;
         private Random _random = new Random();
         private int _noTilesKinds;
-        private double chanceSpecial1 = 0.0;
 
+        private ObjectivesPanel _objectivesPanel;
 
-
-        public Board(int x, int y, int width, int height, int columns, int rows, int tileSide)
+        public Board(BoardConfiguration config, int tileSide)
         {
 
-            X = x;
-            Y = y;
-            Width = width;
-            Height = height;
-            Columns = columns;
-            Rows = rows;
+            X = config.X;
+            Y = config.Y;
+            Width = config.Width;
+            Height = config.Height;
+            Columns = config.Columns;
+            Rows = config.Rows;
             TileSide = tileSide;
             ActualTileSide = (int)(GetTileScale(TileSide, TileSide).X * TileSide);
-            this.entity = new Entity() { Name = "Board" }.AddComponent(new BoardBehavior(this));
+            this.entity = new Entity() { Name = config.Name }.AddComponent(new BoardBehavior(this));
             this.Tag = "board";
-            Configuration config = new Configuration();
-            config.ReadConfiguration();
-            chanceSpecial1 = config.Levels[0].Boards[0].Special1Chance;
+            ChanceSpecial1 = config.Special1Chance;
+
+            List<Objective> objectives = new List<Objective>();
+            foreach(ObjectiveConfiguration objectiveConfig in config.Objectives)
+            {
+                Objective objective = new Objective(objectiveConfig.TileIndex, objectiveConfig.RequiredAmount, objectiveConfig.Name);
+                objectives.Add(objective);
+            }
+            _objectivesPanel = new ObjectivesPanel(objectives, Width, X, Y + Height);
+            this.entity.AddChild(_objectivesPanel.Entity);
         }
 
         public Vector2 GetTileScale(int tileWidth = 100, int tileHeight= 100)
@@ -225,6 +235,11 @@ namespace Match3
             return matchesFound;
         }
 
+        public bool IsComplete()
+        {
+            return _objectivesPanel.AreObjectivesMet();
+        }
+
         public void DropTiles()
         {
             for (int j = 0; j < Rows; j++)
@@ -257,7 +272,7 @@ namespace Match3
         private Tile GenerateRandomTile()
         {
             Tile entity = null;
-            if (_random.NextDouble() < chanceSpecial1)
+            if (_random.NextDouble() < ChanceSpecial1)
             {
                 entity = new Special1Tile(GetTileScale());
             }
@@ -277,6 +292,7 @@ namespace Match3
 			{
 				foreach (Match match in matchesAfterSwapping)
 				{
+                    _objectivesPanel.UpdateObjectives(match);
 					switch (match.Tiles.Count)
 					{
 						case 3:

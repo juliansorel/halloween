@@ -5,6 +5,13 @@ using System.Xml;
 
 namespace Match3
 {
+    public class ObjectiveConfiguration
+    {
+        public int TileIndex { get; set; }
+        public int RequiredAmount { get; set; }
+        public string Name { get; set; }
+    }
+
     public class BoardConfiguration
     {
         public int Columns { get; set; }
@@ -16,6 +23,7 @@ namespace Match3
         public int Width { get; set; }
         public int Height { get; set; }
         public string Name { get; set; }
+        public List<ObjectiveConfiguration> Objectives { get; set; }
     }
 
     class Configuration
@@ -63,6 +71,21 @@ namespace Match3
                     newBoard.Height = Convert.ToInt32(heightNode.InnerText);
 
                     newBoard.Name = boardNode.Attributes["Id"].Value;
+
+                    newBoard.Objectives = new List<ObjectiveConfiguration>();
+                    foreach (XmlNode objective in boardNode.SelectSingleNode("./objectives").ChildNodes)
+                    {
+                        if(objective.Name == "tile_objective")
+                        {
+                            ObjectiveConfiguration newObjective = new ObjectiveConfiguration()
+                            {
+                                Name = objective.Attributes["Name"].Value,
+                                TileIndex = Convert.ToInt32(objective.Attributes["Index"].Value),
+                                RequiredAmount = Convert.ToInt32(objective.Attributes["Amount"].Value),
+                            };
+                            newBoard.Objectives.Add(newObjective);
+                        }
+                    }
 
                     newLevel.Boards.Add(newBoard);
                 }
