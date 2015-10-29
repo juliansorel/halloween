@@ -10,6 +10,25 @@
     <timeSec>60</timeSec>
     <boards>
       <board Id="Left">
+        <x_position>300</x_position>
+        <y_position>100</y_position>
+        <width>500</width>
+        <height>500</height>
+        <columns>5</columns>
+        <rows>5</rows>
+        <tiles>3</tiles>
+        <!--Number of different kinds of tiles: 2-5-->
+        <chanceSpecial1>0.02</chanceSpecial1> <!--Chance to spawn a special one tile. decimal number: 0.0 - 1.0-->
+        <objectives>
+          <tile_objective Index="1" Amount="50" Name="Blue"/>
+        </objectives>
+      </board>
+    </boards>
+  </level>
+  <level Id="1">
+    <timeSec>60</timeSec>
+    <boards>
+      <board Id="Left">
         <x_position>100</x_position>
         <y_position>100</y_position>
         <width>500</width>
@@ -18,7 +37,8 @@
         <rows>5</rows>
         <tiles>3</tiles>
         <!--Number of different kinds of tiles: 2-5-->
-        <chanceSpecial1>0.03</chanceSpecial1> <!--Chance to spawn a special one tile. decimal number: 0.0 - 1.0-->
+        <chanceSpecial1>0.02</chanceSpecial1>
+        <!--Chance to spawn a special one tile. decimal number: 0.0 - 1.0-->
         <objectives>
           <tile_objective Index="1" Amount="100" Name="Blue"/>
         </objectives>
@@ -33,10 +53,10 @@
         <rows>5</rows>
         <tiles>3</tiles>
         <!--Number of different kinds of tiles: 2-5-->
-        <chanceSpecial1>0.03</chanceSpecial1>
+        <chanceSpecial1>0.02</chanceSpecial1>
         <!--Chance to spawn a special one tile. decimal number: 0.0 - 1.0-->
         <objectives>
-          <tile_objective Index="0" Amount="30" Name="Black"/>
+          <tile_objective Index="0" Amount="50" Name="Black"/>
           <tile_objective Index="2" Amount="50" Name="Green"/>
         </objectives>
       </board>

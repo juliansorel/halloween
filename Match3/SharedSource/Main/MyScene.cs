@@ -30,11 +30,7 @@ namespace Match3
 
 		private States _currentState;
 		private MessagePanel _messagePanel;
-        //private int boardX = 400;
-        //private int boardY = 100;
-
-        //private int boardWidth = 500;
-        //private int boardHeight = 500;
+        private int _currentLevel = 0;
 
         private int tileSide = 100; // This should probably be taken from assets.
         private string[] tileSprites = {WaveContent.Tiles_spritesheet_TextureName.black,
@@ -60,8 +56,7 @@ namespace Match3
         {
             this.Load(WaveContent.Scenes.MyScene);
 
-            Configuration config = new Configuration();
-            config.ReadConfiguration();
+
 
             scoreboardPanel = new ScoreboardPanel()
             {
@@ -78,23 +73,7 @@ namespace Match3
 			};
 			EntityManager.Add(_messagePanel);
 
-            foreach (BoardConfiguration boardConfig in config.Levels[0].Boards)
-            {
-                Board board = new Board(boardConfig, tileSide);
-                board.Entity.Name = boardConfig.Name;
-                board.ChanceSpecial1 = boardConfig.Special1Chance;
-
-                string[] selectedSprites = new string[boardConfig.Tiles];
-                for (int i = 0; i < boardConfig.Tiles; i++)
-                {
-                    selectedSprites[i] = tileSprites[i];
-                }
-                List<Entity> tiles = board.GenerateRandomBoard(WaveContent.Tiles_spritesheet, selectedSprites);
-
-                EntityManager.Add(board);
-
-                EntityManager.Add(tiles);
-            }
+            CreateBoard();
 
             this.AddSceneBehavior(new MySceneBehavior(), SceneBehavior.Order.PostUpdate);
 			CurrentState = States.GamePlay;
@@ -115,16 +94,12 @@ namespace Match3
 
 					break;
                 case States.Win:
-                    _messagePanel.Type = MessagePanel.MessageType.Win;
+                    //_messagePanel.Type = MessagePanel.MessageType.Win;
                     foreach (Board board in EntityManager.FindAllByTag("board"))
                     {
                         board.Entity.IsActive = false;
                     }
-                    WaveServices.TimerFactory.CreateTimer("timer", TimeSpan.FromSeconds(2.5f), () =>
-                    {
-                        WaveServices.ScreenContextManager.To(
-                    new ScreenContext(new MainMenuScene()), new SpinningSquaresTransition(TimeSpan.FromSeconds(2.5f)));
-                    }, false);
+                    NextLevel();
                     break;
                 case States.TimeOut:
 					_messagePanel.Type = MessagePanel.MessageType.Timeout;
@@ -140,5 +115,67 @@ namespace Match3
 					break;
 			}
 		}
+
+        private void CreateBoard()
+        {
+            Configuration config = new Configuration();
+            config.ReadConfiguration();
+            foreach (BoardConfiguration boardConfig in config.Levels[_currentLevel].Boards)
+            {
+                Board board = new Board(boardConfig, tileSide);
+                board.Entity.Name = boardConfig.Name;
+                board.ChanceSpecial1 = boardConfig.Special1Chance;
+
+                string[] selectedSprites = new string[boardConfig.Tiles];
+                for (int i = 0; i < boardConfig.Tiles; i++)
+                {
+                    selectedSprites[i] = tileSprites[i];
+                }
+                List<Entity> tiles = board.GenerateRandomBoard(WaveContent.Tiles_spritesheet, selectedSprites);
+
+                EntityManager.Add(board);
+
+                EntityManager.Add(tiles);
+            }
+            scoreboardPanel.Time = TimeSpan.FromSeconds(config.Levels[_currentLevel].TimeSec);
+    }
+
+        private void NextLevel()
+        {
+            Configuration config = new Configuration();
+            config.ReadConfiguration();
+            _currentLevel++;
+            if (_currentLevel >= config.Levels.Count)
+            {
+                _messagePanel.Type = MessagePanel.MessageType.Win;
+                WaveServices.TimerFactory.CreateTimer("timer", TimeSpan.FromSeconds(2.5f), () =>
+                {
+                    WaveServices.ScreenContextManager.To(
+                new ScreenContext(new MainMenuScene()), new SpinningSquaresTransition(TimeSpan.FromSeconds(1.5f)));
+                }, false);
+                return;
+            }
+            List<string> names = new List<string>();
+            List<Entity> tiles = new List<Entity>();
+            foreach(Board board in EntityManager.FindAllByTag("board"))
+            {
+                names.Add(board.Name);
+               
+                foreach(var t in board.Tiles)
+                {
+                    tiles.Add(t.Entity);
+                }
+            }
+            foreach(Entity tile in tiles)
+            {
+                EntityManager.Remove(tile);
+            }
+            foreach (string name in names)
+            {
+                EntityManager.Remove(name);
+            }
+            CreateBoard();
+            _currentState = States.GamePlay;
+        }
     }
 }
