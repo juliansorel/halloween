@@ -55,6 +55,8 @@ namespace Match3
             ObjectivesPanel = new ObjectivesPanel(objectives, Width, X, Y + Height);
             this.entity.AddChild(ObjectivesPanel.Entity);
 			ObjectivesPanel.Time = TimeSpan.FromSeconds(config.Time);
+			ObjectivesPanel.Thresholds = config.Thresholds;
+			ObjectivesPanel.TimeFactors = config.TimeFactors;
         }
 
         public Vector2 GetTileScale(int tileWidth = 100, int tileHeight= 100)

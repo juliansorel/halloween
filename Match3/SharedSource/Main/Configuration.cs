@@ -25,6 +25,8 @@ namespace Match3
         public string Name { get; set; }
         public List<ObjectiveConfiguration> Objectives { get; set; }
 		public int Time { get; set; }
+		public List<int> Thresholds { get; set; }
+		public List<double> TimeFactors { get; set; }
     }
 
     class Configuration
@@ -90,6 +92,14 @@ namespace Match3
                             newBoard.Objectives.Add(newObjective);
                         }
                     }
+
+					newBoard.Thresholds = new List<int>();
+					newBoard.TimeFactors = new List<double>();
+					foreach (XmlNode threshold in boardNode.SelectSingleNode("./timeThresholds").ChildNodes)
+					{
+						newBoard.Thresholds.Add(Convert.ToInt32(threshold.Attributes["After"].Value));
+						newBoard.TimeFactors.Add(Convert.ToDouble(threshold.InnerText));
+					}
 
                     newLevel.Boards.Add(newBoard);
                 }

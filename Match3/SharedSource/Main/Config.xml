@@ -22,6 +22,9 @@
           <tile_objective Index="1" Amount="50" Name="Blue"/>
         </objectives>
         <time>20</time>
+        <timeThresholds>
+          <threshold After="10">2</threshold>
+        </timeThresholds>
       </board>
     </boards>
   </level>
@@ -43,6 +46,9 @@
           <tile_objective Index="1" Amount="100" Name="Blue"/>
         </objectives>
         <time>30</time>
+        <timeThresholds>
+          <threshold After="10">2.0</threshold>
+        </timeThresholds>
       </board>
 
       <board Id="Right">
@@ -61,6 +67,9 @@
           <tile_objective Index="2" Amount="50" Name="Green"/>
         </objectives>
         <time>40</time>
+        <timeThresholds>
+          <threshold After="10">2.0</threshold>
+        </timeThresholds>
       </board>
     </boards>
   </level>

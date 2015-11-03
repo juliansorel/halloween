@@ -12,7 +12,7 @@ namespace Match3
 
         protected override void Update(System.TimeSpan gameTime)
         {
-            //Trace.Write("a");
+            Trace.Write("a");
 			if (_gamePlayScene.CurrentState == MyScene.States.GamePlay)
 			{
 
@@ -20,7 +20,7 @@ namespace Match3
                 bool win = true;
                 foreach(Board board in _gamePlayScene.EntityManager.FindAllByTag("board"))
                 {
-					board.ObjectivesPanel.Time -= gameTime;
+					board.ObjectivesPanel.UpdateTime(gameTime, _scoreboardPanel.Time);
 					if (board.ObjectivesPanel.Time < TimeSpan.Zero)
 					{
 						board.ObjectivesPanel.Time = TimeSpan.Zero;

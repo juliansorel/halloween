@@ -25,6 +25,9 @@ namespace Match3
 			}
 		}
 
+		public List<int> Thresholds { get; set; }
+		public List<double> TimeFactors { get; set; }
+
 		public ObjectivesPanel(List<Objective> objectives, int width, int x, int y)
         {
 			_time = TimeSpan.FromSeconds(60);
@@ -77,6 +80,19 @@ namespace Match3
             }
             return true;
         }
+
+		public void UpdateTime(TimeSpan gameTime, TimeSpan totalTime)
+		{
+			double factor = 1.0;
+			foreach(int threshold in Thresholds)
+			{
+				if (totalTime.TotalSeconds >= threshold)
+				{
+					factor = TimeFactors[Thresholds.IndexOf(threshold)];
+				}
+			}
+			Time -= TimeSpan.FromTicks(gameTime.Ticks * (long)factor);
+		}
 
         private void CreateText()
         {
