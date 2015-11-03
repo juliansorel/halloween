@@ -137,7 +137,8 @@ namespace Match3
 
                 EntityManager.Add(tiles);
             }
-            scoreboardPanel.Time = TimeSpan.FromSeconds(config.Levels[_currentLevel].TimeSec);
+			scoreboardPanel.Time = TimeSpan.Zero;
+			
     }
 
         private void NextLevel()

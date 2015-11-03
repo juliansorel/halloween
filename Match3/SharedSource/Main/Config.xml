@@ -7,7 +7,6 @@
 4 - Yellow-->
 <levels>
   <level Id="0">
-    <timeSec>60</timeSec>
     <boards>
       <board Id="Left">
         <x_position>300</x_position>
@@ -22,6 +21,7 @@
         <objectives>
           <tile_objective Index="1" Amount="50" Name="Blue"/>
         </objectives>
+        <time>20</time>
       </board>
     </boards>
   </level>
@@ -42,6 +42,7 @@
         <objectives>
           <tile_objective Index="1" Amount="100" Name="Blue"/>
         </objectives>
+        <time>30</time>
       </board>
 
       <board Id="Right">
@@ -59,6 +60,7 @@
           <tile_objective Index="0" Amount="50" Name="Black"/>
           <tile_objective Index="2" Amount="50" Name="Green"/>
         </objectives>
+        <time>40</time>
       </board>
     </boards>
   </level>

@@ -29,7 +29,7 @@ namespace Match3
         private Random _random = new Random();
         private int _noTilesKinds;
 
-        private ObjectivesPanel _objectivesPanel;
+        public ObjectivesPanel ObjectivesPanel;
 
         public Board(BoardConfiguration config, int tileSide)
         {
@@ -52,8 +52,9 @@ namespace Match3
                 Objective objective = new Objective(objectiveConfig.TileIndex, objectiveConfig.RequiredAmount, objectiveConfig.Name);
                 objectives.Add(objective);
             }
-            _objectivesPanel = new ObjectivesPanel(objectives, Width, X, Y + Height);
-            this.entity.AddChild(_objectivesPanel.Entity);
+            ObjectivesPanel = new ObjectivesPanel(objectives, Width, X, Y + Height);
+            this.entity.AddChild(ObjectivesPanel.Entity);
+			ObjectivesPanel.Time = TimeSpan.FromSeconds(config.Time);
         }
 
         public Vector2 GetTileScale(int tileWidth = 100, int tileHeight= 100)
@@ -237,7 +238,7 @@ namespace Match3
 
         public bool IsComplete()
         {
-            return _objectivesPanel.AreObjectivesMet();
+            return ObjectivesPanel.AreObjectivesMet();
         }
 
         public void DropTiles()
@@ -292,7 +293,7 @@ namespace Match3
 			{
 				foreach (Match match in matchesAfterSwapping)
 				{
-                    _objectivesPanel.UpdateObjectives(match);
+                    ObjectivesPanel.UpdateObjectives(match);
 					switch (match.Tiles.Count)
 					{
 						case 3:

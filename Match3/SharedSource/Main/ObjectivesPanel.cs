@@ -8,13 +8,26 @@ using WaveEngine.Framework.UI;
 
 namespace Match3
 {
-    class ObjectivesPanel:BaseDecorator
+    public class ObjectivesPanel:BaseDecorator
     {
         private TextBlock text;
+		private TextBlock _timeText;
+		private TimeSpan _time;
         private List<Objective> _objectives;
 
-        public ObjectivesPanel(List<Objective> objectives, int width, int x, int y)
+		public TimeSpan Time
+		{
+			get { return _time; }
+			set
+			{
+				_time = value;
+				_timeText.Text = string.Format("Time Left: {0:0}", _time.TotalSeconds);
+			}
+		}
+
+		public ObjectivesPanel(List<Objective> objectives, int width, int x, int y)
         {
+			_time = TimeSpan.FromSeconds(60);
             _objectives = objectives;
             this.entity = new Entity()
                                .AddComponent(new Transform2D() { X = x, Y = y })
@@ -30,15 +43,25 @@ namespace Match3
 
             this.entity.AddChild(this.text.Entity);
 
-        }
+			_timeText = new TextBlock()
+			{
+				Width = width,
+				Height = 100,
+				Text = string.Format("Time Left: {0:0}", _time.TotalSeconds),
+				Margin = new Thickness(0, 100, 0, 0),
+				
+			};
+			this.entity.AddChild(_timeText.Entity);
+
+		}
 
         public void UpdateObjectives(Match match)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder("\n");
             foreach (Objective objective in _objectives)
             {
                 objective.Update(match);
-                sb.AppendFormat("{0} - {1}", objective.Name, objective.AmountLeft);
+                sb.AppendFormat("{0} - {1}\n", objective.Name, objective.AmountLeft);
             }
             text.Text = sb.ToString();
         }
@@ -57,7 +80,7 @@ namespace Match3
 
         private void CreateText()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder("\n");
             foreach (Objective objective in _objectives)
             {
                 sb.AppendFormat("{0} - {1}\n", objective.Name, objective.AmountLeft);

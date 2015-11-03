@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Match3
 {
-    class Objective
+    public class Objective
     {
         public int TileIndex { get; private set; }
         public int AmountLeft  { get; private set; }

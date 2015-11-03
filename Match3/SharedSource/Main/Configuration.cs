@@ -24,6 +24,7 @@ namespace Match3
         public int Height { get; set; }
         public string Name { get; set; }
         public List<ObjectiveConfiguration> Objectives { get; set; }
+		public int Time { get; set; }
     }
 
     class Configuration
@@ -70,7 +71,10 @@ namespace Match3
                     XmlNode heightNode = boardNode.SelectSingleNode("./height");
                     newBoard.Height = Convert.ToInt32(heightNode.InnerText);
 
-                    newBoard.Name = boardNode.Attributes["Id"].Value;
+					XmlNode timeNode = boardNode.SelectSingleNode("./time");
+					newBoard.Time = Convert.ToInt32(timeNode.InnerText);
+
+					newBoard.Name = boardNode.Attributes["Id"].Value;
 
                     newBoard.Objectives = new List<ObjectiveConfiguration>();
                     foreach (XmlNode objective in boardNode.SelectSingleNode("./objectives").ChildNodes)
@@ -89,9 +93,6 @@ namespace Match3
 
                     newLevel.Boards.Add(newBoard);
                 }
-
-                XmlNode timeNode = levelNode.SelectSingleNode("./timeSec");
-                newLevel.TimeSec = Convert.ToInt32(timeNode.InnerText);
 
                 Levels.Add(newLevel);
             }

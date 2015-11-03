@@ -11,16 +11,18 @@ namespace Match3
     {
         private Board _parent;
         private bool _pressed;
+		private ObjectivesPanel _objectivesPanel;
 
         public BoardBehavior(Board parent)
         {
             _parent = parent;
+			
         }
 
         protected override void Update(System.TimeSpan gameTime)
         {
-            var mouseState = WaveServices.Input.MouseState;
-
+			//Trace.WriteLine("a");
+			var mouseState = WaveServices.Input.MouseState;
 
             if (mouseState.X > _parent.X && mouseState.X < _parent.X + _parent.Width &&
                 mouseState.Y > _parent.Y && mouseState.Y < _parent.Y + _parent.Height)
@@ -38,7 +40,7 @@ namespace Match3
                 }
 
                 
-                //Trace.WriteLine(string.Format("{0}, {1}", tileColumn, tileRow));
+                
                 
                 
             }
@@ -47,8 +49,8 @@ namespace Match3
 
         protected override void ResolveDependencies()
         {
-            
-        }
+			_objectivesPanel = _parent.ObjectivesPanel;
+		}
 
         internal void RemoveEntity(Entity entity)
         {

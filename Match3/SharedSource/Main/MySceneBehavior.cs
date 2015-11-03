@@ -12,23 +12,23 @@ namespace Match3
 
         protected override void Update(System.TimeSpan gameTime)
         {
-            Trace.Write("a");
+            //Trace.Write("a");
 			if (_gamePlayScene.CurrentState == MyScene.States.GamePlay)
 			{
 
-				_scoreboardPanel.Time -= gameTime;
-				if (_scoreboardPanel.Time < TimeSpan.Zero)
-				{
-					_scoreboardPanel.Time = TimeSpan.Zero;
-					_gamePlayScene.CurrentState = MyScene.States.TimeOut;
-				}
+				_scoreboardPanel.Time += gameTime;
                 bool win = true;
                 foreach(Board board in _gamePlayScene.EntityManager.FindAllByTag("board"))
                 {
+					board.ObjectivesPanel.Time -= gameTime;
+					if (board.ObjectivesPanel.Time < TimeSpan.Zero)
+					{
+						board.ObjectivesPanel.Time = TimeSpan.Zero;
+						_gamePlayScene.CurrentState = MyScene.States.TimeOut;
+					}
                     if (!board.IsComplete())
                     {
                         win = false;
-                        break;
                     }
                 }
                 if (win)
