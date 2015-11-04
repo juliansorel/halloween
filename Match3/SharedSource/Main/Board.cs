@@ -30,6 +30,7 @@ namespace Match3
         private int _noTilesKinds;
 
         public ObjectivesPanel ObjectivesPanel;
+		public Dictionary<int, int> MatchRewards { get; set; }
 
         public Board(BoardConfiguration config, int tileSide)
         {
@@ -296,20 +297,9 @@ namespace Match3
 				foreach (Match match in matchesAfterSwapping)
 				{
                     ObjectivesPanel.UpdateObjectives(match);
-					switch (match.Tiles.Count)
+					if (MatchRewards.ContainsKey(match.Tiles.Count))
 					{
-						case 3:
-							((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 1;
-							break;
-						case 4:
-							((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 5;
-							break;
-						case 5:
-							((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 20;
-							break;
-						default:
-							((MyScene)this.Entity.Scene).scoreboardPanel.Scores += 1;
-							break;
+						ObjectivesPanel.Time += TimeSpan.FromSeconds(MatchRewards[match.Tiles.Count]);
 					}
 					foreach (Tile tile in match.Tiles)
 					{

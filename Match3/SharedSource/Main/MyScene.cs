@@ -125,6 +125,7 @@ namespace Match3
                 Board board = new Board(boardConfig, tileSide);
                 board.Entity.Name = boardConfig.Name;
                 board.ChanceSpecial1 = boardConfig.Special1Chance;
+				board.MatchRewards = config.Levels[_currentLevel].MatchRewards;
 
                 string[] selectedSprites = new string[boardConfig.Tiles];
                 for (int i = 0; i < boardConfig.Tiles; i++)

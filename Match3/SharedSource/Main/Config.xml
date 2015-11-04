@@ -7,6 +7,11 @@
 4 - Yellow-->
 <levels>
   <level Id="0">
+    <matchRewards>
+      <reward Match="3">0</reward>
+      <reward Match="4">5</reward>
+      <reward Match="5">15</reward>
+    </matchRewards>
     <boards>
       <board Id="Left">
         <x_position>300</x_position>
@@ -29,7 +34,11 @@
     </boards>
   </level>
   <level Id="1">
-    <timeSec>60</timeSec>
+    <matchRewards>
+      <reward Match="3">0</reward>
+      <reward Match="4">5</reward>
+      <reward Match="5">15</reward>
+    </matchRewards>
     <boards>
       <board Id="Left">
         <x_position>100</x_position>

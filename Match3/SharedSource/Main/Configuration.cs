@@ -44,6 +44,14 @@ namespace Match3
             foreach(XmlNode levelNode in doc.DocumentElement.SelectNodes("/levels/level"))
             {
                 Level newLevel = new Level();
+				newLevel.MatchRewards = new Dictionary<int, int>();
+				foreach (XmlNode matchReward in levelNode.SelectNodes("./matchRewards/reward"))
+				{
+					int match = Convert.ToInt32(matchReward.Attributes["Match"].Value);
+					int reward = Convert.ToInt32(matchReward.InnerText);
+					newLevel.MatchRewards.Add(match, reward);
+				}
+
                 newLevel.Boards = new List<BoardConfiguration>();
                 foreach (XmlNode boardNode in levelNode.SelectNodes("./boards/board"))
                 {
