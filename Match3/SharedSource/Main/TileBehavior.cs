@@ -13,7 +13,7 @@ namespace Match3
 
         private bool _growing = true;
         private const int GrowingFrames = 100;
-        private const float GrowthFactor = 1.2f;
+        private const float GrowthFactor = 0.8f;
         private int _growingIndex = 0;
         private Vector2 _originalScale;
         private Vector2 _maxScale;
@@ -29,11 +29,18 @@ namespace Match3
         protected override void Update(System.TimeSpan gameTime)
         {
             _totalTime += gameTime;
-            //float fps = 60 * (float)gameTime.TotalSeconds;
-            //Transform.X += 1 * velocity * fps;
-            //Transform.Y += 1 * velocity * fps;
-            //Trace.WriteLine(_totalTime);
-            if (_parent.Selected) {
+			if (_parent.Matched)
+			{
+				float decrease = 0.0015f;
+				Transform.XScale -= decrease;
+				Transform.YScale -= decrease;
+				if (Transform.XScale <= 0 || Transform.YScale <= 0)
+				{
+					_parent.Gone = true;
+					EntityManager.Remove(_parent);
+				}
+			}
+            else if (_parent.Selected) {
                 Transform.DrawOrder = 0;
                 if (_growing)
                 {

@@ -47,9 +47,13 @@ namespace Match3
                         .AddComponent(new TileBehavior(this));
             Selected = false;
             Index = spriteIndex;
+			Matched = false;
+			Gone = false;
         }
 
         public bool Selected { get; set; }
+		public bool Matched { get; set; }
+		public bool Gone { get; set; }
 
         public void Change(int spriteIndex)
         {
