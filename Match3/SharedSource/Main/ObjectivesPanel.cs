@@ -64,7 +64,10 @@ namespace Match3
             foreach (Objective objective in _objectives)
             {
                 objective.Update(match);
-                sb.AppendFormat("{0} - {1}\n", objective.Name, objective.AmountLeft);
+				if (!objective.IsMet())
+				{
+					sb.AppendFormat("{0} - {1}\n", objective.Name, objective.AmountLeft);
+				}
             }
             text.Text = sb.ToString();
         }
@@ -99,7 +102,10 @@ namespace Match3
             StringBuilder sb = new StringBuilder("\n");
             foreach (Objective objective in _objectives)
             {
-                sb.AppendFormat("{0} - {1}\n", objective.Name, objective.AmountLeft);
+				if (!objective.IsMet())
+				{
+					sb.AppendFormat("{0} - {1}\n", objective.Name, objective.AmountLeft);
+				}
             }
             text.Text = sb.ToString();
         }
